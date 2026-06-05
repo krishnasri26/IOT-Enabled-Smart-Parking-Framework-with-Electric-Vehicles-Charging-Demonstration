@@ -188,7 +188,7 @@ Smart-Parking-EV-Charging/
 
 ## Authors
 
-**Krishna Srivastava
+**Krishna Srivastava,
   Divyansh Dwivedi**
 
 Department of Electronics and Communication Engineering
