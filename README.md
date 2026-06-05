@@ -3,239 +3,198 @@
 
 ## Overview
 
-This project presents an IoT-based Smart Parking Framework integrated with Electric Vehicle (EV) Charging capabilities. The system enables real-time monitoring of parking slots, automated vehicle detection, parking space management, and EV charging station availability through connected IoT devices and cloud services.
+This project presents an IoT-based Smart Parking System integrated with Electric Vehicle (EV) Charging Slot Monitoring using an ESP32 microcontroller and the Blynk IoT platform.
 
-The framework aims to reduce parking congestion, improve parking efficiency, and support sustainable transportation by integrating smart charging infrastructure for electric vehicles.
+The system automatically manages vehicle entry and exit using ultrasonic sensors and a servo-controlled gate. Parking slot occupancy is detected using IR sensors, while EV charging slots are monitored separately. Real-time parking status and charging slot availability are displayed on an LCD screen and remotely monitored through the Blynk IoT mobile application.
 
 ---
 
 ## Features
 
+- Smart automatic parking gate using ESP32
+- Vehicle detection using ultrasonic sensors
+- Servo motor controlled entry/exit barrier
 - Real-time parking slot monitoring
-- Vehicle presence detection using IoT sensors
-- Smart parking space allocation
-- EV charging station management
-- Live availability updates through web/mobile dashboard
-- Automated entry and exit tracking
-- Cloud-based data storage and analytics
-- Parking occupancy visualization
-- Charging status monitoring
-- Notifications and alerts
+- Separate Fuel Vehicle and EV Parking Slots
+- EV charging slot status monitoring
+- LED indication for occupied slots
+- LCD display for slot availability
+- Blynk IoT cloud monitoring
+- Real-time updates through mobile app
+
+---
+
+## Hardware Components
+
+| Component | Quantity |
+|------------|----------|
+| ESP32 Development Board | 1 |
+| Ultrasonic Sensor HC-SR04 | 2 |
+| IR Sensors | 6 |
+| Servo Motor SG90 | 1 |
+| LEDs | 6 |
+| 16x2 LCD with I2C Module | 1 |
+| EV Charging Demo Cables | 3 |
+| Breadboard | 1 |
+| Jumper Wires | As Required |
+| Power Supply | 5V |
 
 ---
 
 ## System Architecture
 
-```
-+---------------------+
-|     IoT Sensors     |
-| (IR/Ultrasonic)     |
-+----------+----------+
-           |
-           v
-+---------------------+
-|  ESP32              |
-| Microcontroller     |
-+----------+----------+
-           |
-           v
-+---------------------+
-| Wi-Fi               |
-| Communication Layer |
-+----------+----------+
-           |
-           v
-+---------------------+
-| Cloud Server        |
-| Database            |
-+----------+----------+
-           |
-           v
-+---------------------+
-| Web/Mobile App      |
-| Dashboard           |
-+---------------------+
-```
+### Entry and Exit Control
+
+- Ultrasonic Sensor 1 detects approaching vehicles.
+- ESP32 activates the servo motor to open the gate.
+- Ultrasonic Sensor 2 detects vehicle passage.
+- Servo motor closes the gate automatically.
+
+### Fuel Vehicle Slots
+
+- Three parking slots monitored using IR sensors.
+- LEDs indicate occupied slots.
+- Slot status is displayed on LCD and Blynk App.
+
+### EV Charging Slots
+
+- Three EV parking slots monitored using IR sensors.
+- LED glows when a vehicle occupies the slot.
+- Charging cable demonstration indicates EV charging process.
+- Slot occupancy updates are sent to Blynk Cloud.
 
 ---
 
-## Hardware Requirements
+## Working Flow
 
-- ESP32 Development Board
-- Ultrasonic Sensors (HC-SR04) or IR Sensors
-- Servo Motor (Gate Control)
-- EV Charging Module (Prototype)
-- Jumper Wires
-- Breadboard
+1. Vehicle approaches parking gate.
+2. Ultrasonic Sensor 1 detects vehicle.
+3. Servo motor opens gate.
+4. Vehicle passes through gate.
+5. Ultrasonic Sensor 2 detects vehicle.
+6. Servo motor closes gate.
+7. Vehicle parks in Fuel or EV slot.
+8. IR sensor detects occupancy.
+9. Corresponding LED turns ON.
+10. LCD updates available slots.
+11. ESP32 sends data to Blynk IoT Cloud.
+12. User monitors parking status through Blynk Mobile App.
+13. When vehicle exits, slot status updates automatically.
+
+---
+
+## Pin Configuration
+
+| ESP32 Pin | Component |
+|------------|-----------|
+| GPIO 18 | Servo Motor |
+| GPIO 5 | Ultrasonic Sensor 1 Trigger |
+| GPIO 19 | Ultrasonic Sensor 1 Echo |
+| GPIO 2 | Ultrasonic Sensor 2 Trigger |
+| GPIO 15 | Ultrasonic Sensor 2 Echo |
+| GPIO 21 | LCD SDA |
+| GPIO 22 | LCD SCL |
+| GPIO 34 | Fuel Slot IR Sensor 1 |
+| GPIO 35 | Fuel Slot IR Sensor 2 |
+| GPIO 36 | Fuel Slot IR Sensor 3 |
+| GPIO 25 | EV Slot IR Sensor 1 |
+| GPIO 26 | EV Slot IR Sensor 2 |
+| GPIO 27 | EV Slot IR Sensor 3 |
 
 ---
 
 ## Software Requirements
 
 - Arduino IDE
-- Blynk IOT
+- ESP32 Board Package
+- Blynk IoT Platform
+- Blynk Mobile App
+- LiquidCrystal_I2C Library
+- ESP32Servo Library
+- WiFi Library
 
 ---
 
-## Technologies Used
+## Blynk Dashboard
 
-| Technology | Purpose |
-|------------|----------|
-| IoT | Real-time monitoring |
-| ESP32 | Sensor communication |
-| Lightweight messaging |
-| EV Charging Module | Charging demonstration |
+The Blynk application displays:
 
----
-
-## Working Principle
-
-1. Sensors detect vehicle occupancy in parking slots.
-2. ESP32 collects sensor data.
-3. 
-4. The server processes parking availability information.
-5. Users view available slots via a dashboard.
-6. EV owners can locate available charging stations.
-7. Charging status and parking occupancy are updated in real time.
+- Total Available Slots
+- Fuel Vehicle Slot Status
+- EV Slot Status
+- Charging Slot Availability
+- Entry and Exit Monitoring
+- Real-Time Notifications
 
 ---
 
-## Installation
-
-### Clone Repository
-
-```bash
-git clone https://github.com/yourusername/IOT-Enabled-Smart-Parking-Framework-with-Electric-Vehicles-Charging-Demonstration.git
-```
-
-### Install Dependencies
-
-```bash
-npm install
-```
-
-or
-
-```bash
-pip install -r requirements.txt
-```
-
-### Configure MQTT Broker
-
-Update the MQTT broker settings in the configuration file:
-
-```json
-{
-  "broker": "mqtt://localhost",
-  "port": 1883
-}
-```
-
-### Run Application
-
-```bash
-npm start
-```
-
-or
-
-```bash
-python app.py
-```
-
----
-
-## Project Demonstration
-
-### Parking Slot Status
-
-| Slot | Status |
-|--------|--------|
-| P1 | Available |
-| P2 | Occupied |
-| P3 | Available |
-| P4 | Charging |
-
-### EV Charging Dashboard
-
-- Charging Station Availability
-- Battery Charging Status
-- Charging Duration
-- Energy Consumption
-
----
-
-## Folder Structure
+## Project Structure
 
 ```
-├── hardware/
-│   ├── esp8266_code/
-│   ├── sensors/
+Smart-Parking-EV-Charging/
 │
-├── backend/
-│   ├── api/
-│   ├── database/
+├── Arduino_Code/
+│   ├── SmartParking.ino
 │
-├── frontend/
-│   ├── dashboard/
-│   ├── mobile_app/
+├── Circuit_Diagram/
+│   ├── circuit.png
 │
-├── docs/
+├── Flowchart/
+│   ├── flowchart.png
 │
-├── images/
+├── Images/
+│   ├── prototype.jpg
+│   ├── blynk_dashboard.jpg
 │
 └── README.md
 ```
 
 ---
 
+## Results
+
+- Automated vehicle entry and exit.
+- Accurate parking slot detection.
+- Real-time slot monitoring.
+- Dedicated EV charging slot management.
+- Mobile monitoring through Blynk IoT.
+- Reduced parking congestion.
+
+---
+
 ## Future Enhancements
 
-- AI-based parking prediction
-- License plate recognition
-- Online slot reservation
-- Smart payment gateway
-- Wireless EV charging integration
-- Mobile application deployment
-- Smart city integration
+- QR Code Based Parking Access
+- RFID Vehicle Authentication
+- Online Slot Reservation
+- AI-Based Parking Prediction
+- License Plate Recognition
+- Payment Gateway Integration
+- Smart City Deployment
 
 ---
 
 ## Applications
 
-- Shopping malls
+- Smart Cities
+- Shopping Malls
 - Airports
-- Smart cities
 - Universities
-- Corporate campuses
-- EV charging stations
-- Multi-level parking facilities
+- Office Campuses
+- EV Charging Stations
+- Commercial Parking Facilities
 
 ---
 
-## Results
+## Authors
 
-- Reduced parking search time
-- Improved parking utilization
-- Enhanced EV charging accessibility
-- Real-time monitoring and management
-- Better user experience
+**Krishna Srivastava
+  Divyansh Dwivedi**
 
----
-
-## Contributors
-
-- Your Name
-- Team Members
+Department of Electronics and Communication Engineering
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
-
----
-
-## Acknowledgements
-
-Special thanks to the IoT, Smart Mobility, and Electric Vehicle communities for inspiring this project.
+This project is developed for educational and research purposes.
